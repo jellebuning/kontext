@@ -17,6 +17,7 @@ internal sealed class KontextTerminalControl : EasyTerminalControl, IDisposable
     private readonly MouseReportingState _mouse = new();
     private TerminalZoomHook? _zoomHook;
     private TerminalMouseHook? _mouseHook;
+    private TerminalKeyboardHook? _keyboardHook;
 
     public KontextTerminalControl(TerminalZoom zoom)
     {
@@ -52,6 +53,8 @@ internal sealed class KontextTerminalControl : EasyTerminalControl, IDisposable
         _zoomHook = null;
         _mouseHook?.Dispose();
         _mouseHook = null;
+        _keyboardHook?.Dispose();
+        _keyboardHook = null;
     }
 
     private void ObserveOutput(ref Span<char> output) => _mouse.Observe(output);
@@ -71,6 +74,7 @@ internal sealed class KontextTerminalControl : EasyTerminalControl, IDisposable
 
         _zoomHook = new TerminalZoomHook(window, _zoom);
         _mouseHook = new TerminalMouseHook(window, _mouse, () => (terminal.Columns, terminal.Rows), SendToProgram);
+        _keyboardHook = new TerminalKeyboardHook(window, _mouse, terminal.GetSelectedText, SendToProgram);
         ApplyZoom(this, EventArgs.Empty);
     }
 

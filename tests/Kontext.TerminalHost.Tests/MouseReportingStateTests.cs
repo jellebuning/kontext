@@ -121,6 +121,53 @@ public class MouseReportingStateTests
     }
 
     [Test]
+    public void StartsWithoutBracketedPaste()
+    {
+        Assert.That(_state.UsesBracketedPaste, Is.False);
+    }
+
+    [Test]
+    public void FollowsBracketedPasteBeingTurnedOnAndOff()
+    {
+        _state.Observe($"{Esc}[?2004h");
+        Assert.That(_state.UsesBracketedPaste, Is.True);
+        Assert.That(_state.Tracking, Is.EqualTo(MouseTracking.Off), "it is not a mouse mode");
+
+        _state.Observe($"{Esc}[?2004l");
+        Assert.That(_state.UsesBracketedPaste, Is.False);
+    }
+
+    [Test]
+    public void ReadsBracketedPasteNextToMouseModes()
+    {
+        _state.Observe($"{Esc}[?1000;2004h");
+
+        Assert.That(_state.UsesBracketedPaste, Is.True);
+        Assert.That(_state.Tracking, Is.EqualTo(MouseTracking.Press));
+    }
+
+    [Test]
+    public void PutsBracketedPasteSplitBetweenTwoPiecesOfOutputBackTogether()
+    {
+        _state.Observe($"prompt{Esc}[?20");
+        Assert.That(_state.UsesBracketedPaste, Is.False, "not yet known");
+
+        _state.Observe("04h more");
+
+        Assert.That(_state.UsesBracketedPaste, Is.True);
+    }
+
+    [Test]
+    public void AFullResetEndsBracketedPaste()
+    {
+        _state.Observe($"{Esc}[?2004h");
+
+        _state.Observe($"{Esc}c");
+
+        Assert.That(_state.UsesBracketedPaste, Is.False);
+    }
+
+    [Test]
     public void ManyPiecesOfPlainOutputChangeNothing()
     {
         for (var i = 0; i < 1000; i++)
