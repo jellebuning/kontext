@@ -3,11 +3,27 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <UserControl.Resources>
+        <Style x:Key="SettingsCardStyle" TargetType="Border">
+            <Setter Property="MinHeight" Value="68" />
+            <Setter Property="Padding" Value="16" />
+            <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
+            <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        </Style>
+
+        <Style x:Key="SettingsDescriptionStyle" BasedOn="{StaticResource CaptionTextBlockStyle}" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+    </UserControl.Resources>
+
     <ScrollViewer>
         <StackPanel
             MaxWidth="1000"
             Padding="36,24"
-            HorizontalAlignment="Left"
+            HorizontalAlignment="Stretch"
             Spacing="24">
 
             <TextBlock
@@ -22,25 +38,27 @@
                     Style="{StaticResource BodyStrongTextBlockStyle}"
                     Text="Account" />
 
-                <Border
-                    Padding="16"
-                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                    BorderThickness="1"
-                    CornerRadius="8">
-                    <Grid ColumnSpacing="16">
+                <Border Style="{StaticResource SettingsCardStyle}">
+                    <Grid VerticalAlignment="Center" ColumnSpacing="16">
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock
-                            VerticalAlignment="Center"
-                            Text="{x:Bind ViewModel.SignedInText, Mode=OneWay}"
-                            TextWrapping="Wrap" />
+                        <FontIcon
+                            AutomationProperties.AccessibilityView="Raw"
+                            FontSize="20"
+                            Glyph="&#xE77B;" />
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Text="GitHub account" />
+                            <TextBlock Style="{StaticResource SettingsDescriptionStyle}" Text="{x:Bind ViewModel.SignedInText, Mode=OneWay}" />
+                        </StackPanel>
                         <Button
-                            Grid.Column="1"
+                            Grid.Column="2"
+                            MinWidth="90"
                             VerticalAlignment="Center"
+                            AutomationProperties.Name="Sign out"
                             Command="{x:Bind ViewModel.SignOutCommand}"
                             Content="Sign out" />
                     </Grid>
@@ -54,27 +72,24 @@
                     Style="{StaticResource BodyStrongTextBlockStyle}"
                     Text="About" />
 
-                <Border
-                    Padding="16"
-                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                    BorderThickness="1"
-                    CornerRadius="8">
-                    <Grid ColumnSpacing="16">
+                <Border Style="{StaticResource SettingsCardStyle}">
+                    <Grid VerticalAlignment="Center" ColumnSpacing="16">
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
-                        <StackPanel VerticalAlignment="Center">
+                        <FontIcon
+                            AutomationProperties.AccessibilityView="Raw"
+                            FontSize="20"
+                            Glyph="&#xE946;" />
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
                             <TextBlock Text="Kontext" />
-                            <TextBlock
-                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                Style="{StaticResource CaptionTextBlockStyle}"
-                                Text="{x:Bind AppVersion}" />
+                            <TextBlock Style="{StaticResource SettingsDescriptionStyle}" Text="{x:Bind AppVersion}" />
                         </StackPanel>
                         <HyperlinkButton
-                            Grid.Column="1"
+                            Grid.Column="2"
                             VerticalAlignment="Center"
                             Content="GitHub repository"
                             NavigateUri="https://github.com/jellebuning/kontext" />
