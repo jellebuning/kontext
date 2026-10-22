@@ -26,7 +26,7 @@ public static class ServiceCollectionExtensions
             : overridden;
 
         services
-            .AddKontextGitHub()
+            .AddKontextGitHub(new GitHubOptions(GitHubClientId()))
             .AddKontextGitAutomation(new GitAutomationOptions(
                 StateDirectory: dataRoot,
                 WorktreesRoot: Path.Combine(dataRoot, "worktrees"),
@@ -57,6 +57,12 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<MainWindow>();
 
         return services;
+    }
+
+    private static string? GitHubClientId()
+    {
+        var configured = Environment.GetEnvironmentVariable("KONTEXT_GITHUB_CLIENT_ID");
+        return string.IsNullOrWhiteSpace(configured) ? null : configured.Trim();
     }
 
     private static string ClaudeConfigDirectory()

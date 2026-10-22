@@ -12,7 +12,7 @@ internal static class OctokitCall
         }
         catch (Octokit.AuthorizationException ex)
         {
-            throw new AuthenticationFailedException("GitHub rejected this token. Check that it is correct, not expired, and not revoked.", ex);
+            throw new AuthenticationFailedException("GitHub rejected this sign-in. It may have expired or been revoked.", ex);
         }
         catch (Octokit.ApiException ex)
         {

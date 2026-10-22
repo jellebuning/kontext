@@ -6,7 +6,7 @@ using Kontext.Kernel;
 
 namespace Kontext.Presentation;
 
-public sealed partial class ShellViewModel(IGitHubService gitHub, IGitHubTokenStore tokenStore, WorkspaceViewModel workspace) : ObservableObject
+public sealed partial class ShellViewModel(IGitHubService gitHub, IGitHubDeviceLogin deviceLogin, IGitHubTokenStore tokenStore, WorkspaceViewModel workspace) : ObservableObject
 {
     public WorkspaceViewModel Workspace { get; } = workspace;
 
@@ -20,15 +20,20 @@ public sealed partial class ShellViewModel(IGitHubService gitHub, IGitHubTokenSt
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(SignInCommand))]
-    public partial string Token { get; set; } = string.Empty;
-
-    [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(SignInCommand))]
     public partial bool IsBusy { get; set; }
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HasError))]
     public partial string? ErrorMessage { get; set; }
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasDeviceCode))]
+    public partial string? UserCode { get; set; }
+
+    [ObservableProperty]
+    public partial Uri? VerificationUrl { get; set; }
+
+    public bool HasDeviceCode => !string.IsNullOrEmpty(UserCode);
 
     public bool IsSignedIn => User is not null;
 
@@ -70,7 +75,7 @@ public sealed partial class ShellViewModel(IGitHubService gitHub, IGitHubTokenSt
         catch (AuthenticationFailedException)
         {
             tokenStore.Clear();
-            ErrorMessage = "Your saved GitHub token is no longer valid. Please sign in again.";
+            ErrorMessage = "Your saved GitHub sign-in is no longer valid. Please sign in again.";
         }
         catch (KontextException ex)
         {
@@ -82,18 +87,24 @@ public sealed partial class ShellViewModel(IGitHubService gitHub, IGitHubTokenSt
         }
     }
 
-    [RelayCommand(CanExecute = nameof(CanSignIn))]
-    private async Task SignInAsync()
+    [RelayCommand(IncludeCancelCommand = true, CanExecute = nameof(CanSignIn))]
+    private async Task SignInAsync(CancellationToken cancellationToken)
     {
         ErrorMessage = null;
         IsBusy = true;
         try
         {
-            var token = Token.Trim();
-            User = await gitHub.AuthenticateAsync(token);
+            var challenge = await deviceLogin.StartAsync(cancellationToken);
+            UserCode = challenge.UserCode;
+            VerificationUrl = challenge.VerificationUri;
+
+            var token = await deviceLogin.WaitForAccessTokenAsync(challenge, cancellationToken);
+            User = await gitHub.AuthenticateAsync(token, cancellationToken);
             tokenStore.Save(token);
-            Token = string.Empty;
             Workspace.Sidebar.RefreshCommand.Execute(null);
+        }
+        catch (OperationCanceledException)
+        {
         }
         catch (KontextException ex)
         {
@@ -101,6 +112,8 @@ public sealed partial class ShellViewModel(IGitHubService gitHub, IGitHubTokenSt
         }
         finally
         {
+            UserCode = null;
+            VerificationUrl = null;
             IsBusy = false;
         }
     }
@@ -108,6 +121,9 @@ public sealed partial class ShellViewModel(IGitHubService gitHub, IGitHubTokenSt
     [RelayCommand]
     private void SignOut()
     {
+        SignInCancelCommand.Execute(null);
+        UserCode = null;
+        VerificationUrl = null;
         gitHub.SignOut();
         tokenStore.Clear();
         Workspace.Sidebar.Clear();
@@ -116,5 +132,5 @@ public sealed partial class ShellViewModel(IGitHubService gitHub, IGitHubTokenSt
         User = null;
     }
 
-    private bool CanSignIn() => !IsBusy && !string.IsNullOrWhiteSpace(Token);
+    private bool CanSignIn() => !IsBusy;
 }

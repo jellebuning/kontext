@@ -22,20 +22,20 @@
             Foreground="{ThemeResource TextFillColorSecondaryBrush}"
             Style="{StaticResource BodyTextBlockStyle}"
             TextWrapping="Wrap">
-            Kontext uses a personal access token to read your boards and issues. The token is stored encrypted in Windows Credential Locker.
+            Kontext signs you in with your GitHub account. You approve it on github.com; no password or token is typed here.
         </TextBlock>
 
-        <HyperlinkButton
-            Padding="0"
-            Content="Create a token on GitHub (repo scope pre-selected)"
-            NavigateUri="https://github.com/settings/tokens/new?description=Kontext&amp;scopes=repo" />
-
-        <PasswordBox
-            x:Name="TokenBox"
-            Header="Personal access token"
-            KeyDown="TokenBox_KeyDown"
-            Password="{x:Bind ViewModel.Token, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            PlaceholderText="ghp_… or github_pat_…" />
+        <StackPanel Spacing="8" Visibility="{x:Bind ViewModel.HasDeviceCode, Mode=OneWay}">
+            <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="Enter this code on GitHub:" />
+            <TextBlock
+                IsTextSelectionEnabled="True"
+                Style="{StaticResource TitleLargeTextBlockStyle}"
+                Text="{x:Bind ViewModel.UserCode, Mode=OneWay}" />
+            <HyperlinkButton
+                Padding="0"
+                Content="Open github.com/login/device"
+                NavigateUri="{x:Bind ViewModel.VerificationUrl, Mode=OneWay}" />
+        </StackPanel>
 
         <InfoBar
             IsClosable="False"
@@ -46,8 +46,12 @@
         <StackPanel Orientation="Horizontal" Spacing="12">
             <Button
                 Command="{x:Bind ViewModel.SignInCommand}"
-                Content="Sign in"
+                Content="Sign in with GitHub"
                 Style="{StaticResource AccentButtonStyle}" />
+            <Button
+                Command="{x:Bind ViewModel.SignInCancelCommand}"
+                Content="Cancel"
+                Visibility="{x:Bind ViewModel.IsBusy, Mode=OneWay}" />
             <ProgressRing
                 Width="20"
                 Height="20"
