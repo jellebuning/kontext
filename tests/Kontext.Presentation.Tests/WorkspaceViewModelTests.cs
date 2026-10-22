@@ -61,6 +61,138 @@ public class WorkspaceViewModelTests
     }
 
     [Test]
+    public void ShowsTheIssueDetailAndNotTheSettingsByDefault()
+    {
+        Assert.That(_workspace.IsSettingsOpen, Is.False);
+        Assert.That(_workspace.IsDetailVisible, Is.True);
+    }
+
+    [Test]
+    public void OpeningTheSettingsHidesTheIssueDetailAndSaysSo()
+    {
+        var changed = new List<string?>();
+        _workspace.PropertyChanged += (_, e) => changed.Add(e.PropertyName);
+
+        _workspace.IsSettingsOpen = true;
+
+        Assert.That(_workspace.IsDetailVisible, Is.False);
+        Assert.That(changed, Does.Contain(nameof(WorkspaceViewModel.IsSettingsOpen)));
+        Assert.That(changed, Does.Contain(nameof(WorkspaceViewModel.IsDetailVisible)));
+    }
+
+    [Test]
+    public void ClosingTheSettingsShowsTheIssueDetailAgain()
+    {
+        _workspace.IsSettingsOpen = true;
+
+        _workspace.IsSettingsOpen = false;
+
+        Assert.That(_workspace.IsDetailVisible, Is.True);
+    }
+
+    [Test]
+    public void SelectingAnIssueWhileTheSettingsAreOpenClosesTheSettings()
+    {
+        _workspace.IsSettingsOpen = true;
+
+        _sidebar.SelectedItem = ItemNumbered(4);
+
+        Assert.That(_workspace.IsSettingsOpen, Is.False);
+        Assert.That(_workspace.IsDetailVisible, Is.True);
+        Assert.That(_workspace.Detail.Title, Is.EqualTo("Add notifications"));
+    }
+
+    [Test]
+    public void SelectingADifferentIssueWhileTheSettingsAreOpenClosesTheSettingsAndShowsThatIssue()
+    {
+        _sidebar.SelectedItem = ItemNumbered(4);
+        _workspace.IsSettingsOpen = true;
+
+        _sidebar.SelectedItem = ItemNumbered(3);
+
+        Assert.That(_workspace.IsSettingsOpen, Is.False);
+        Assert.That(_workspace.IsDetailVisible, Is.True);
+        Assert.That(_workspace.Detail.Title, Is.EqualTo("Bring project under UI test"));
+    }
+
+    [Test]
+    public void ReassigningANewInstanceOfTheSameIssueWhileTheSettingsAreOpenKeepsTheSettingsOpenAndUpdatesTheDetail()
+    {
+        var original = ItemNumbered(4);
+        _sidebar.SelectedItem = original;
+        _workspace.IsSettingsOpen = true;
+        var reloaded = new IssueItemViewModel(original.Issue, _tracker.StateOf(original.Key), _clock.GetUtcNow());
+
+        _sidebar.SelectedItem = reloaded;
+
+        Assert.That(_workspace.IsSettingsOpen, Is.True);
+        Assert.That(_workspace.IsDetailVisible, Is.False);
+        Assert.That(_workspace.Detail.Item, Is.SameAs(reloaded));
+    }
+
+    [Test]
+    public async Task RefreshingTheSidebarWhileTheSettingsAreOpenKeepsTheSettingsOpenAndTheSelectedIssue()
+    {
+        var original = ItemNumbered(4);
+        _sidebar.SelectedItem = original;
+        _workspace.IsSettingsOpen = true;
+
+        await _sidebar.RefreshCommand.ExecuteAsync(null);
+
+        Assert.That(_sidebar.SelectedItem, Is.Not.SameAs(original));
+        Assert.That(_sidebar.SelectedItem!.Key, Is.EqualTo(original.Key));
+        Assert.That(_workspace.IsSettingsOpen, Is.True);
+        Assert.That(_workspace.Detail.Item, Is.SameAs(_sidebar.SelectedItem));
+        Assert.That(_workspace.Detail.Title, Is.EqualTo("Add notifications"));
+    }
+
+    [Test]
+    public async Task RefreshingTheSidebarWhileTheSettingsAreClosedKeepsTheSettingsClosed()
+    {
+        _sidebar.SelectedItem = ItemNumbered(4);
+
+        await _sidebar.RefreshCommand.ExecuteAsync(null);
+
+        Assert.That(_workspace.IsSettingsOpen, Is.False);
+        Assert.That(_workspace.Detail.Title, Is.EqualTo("Add notifications"));
+    }
+
+    [Test]
+    public void ReselectingTheSameIssueAfterOpeningTheSettingsFromAClearedSelectionClosesTheSettings()
+    {
+        _sidebar.SelectedItem = ItemNumbered(4);
+        _sidebar.SelectedItem = null;
+        _workspace.IsSettingsOpen = true;
+
+        _sidebar.SelectedItem = ItemNumbered(4);
+
+        Assert.That(_workspace.IsSettingsOpen, Is.False);
+    }
+
+    [Test]
+    public void ClearingTheSidebarWhileTheSettingsAreOpenKeepsTheSettingsOpen()
+    {
+        _sidebar.SelectedItem = ItemNumbered(4);
+        _workspace.IsSettingsOpen = true;
+
+        _sidebar.Clear();
+
+        Assert.That(_workspace.IsSettingsOpen, Is.True);
+        Assert.That(_workspace.Detail.HasSelection, Is.False);
+    }
+
+    [Test]
+    public void ClearingTheSelectionWhileTheSettingsAreOpenKeepsTheSettingsOpen()
+    {
+        _sidebar.SelectedItem = ItemNumbered(4);
+        _workspace.IsSettingsOpen = true;
+
+        _sidebar.SelectedItem = null;
+
+        Assert.That(_workspace.IsSettingsOpen, Is.True);
+    }
+
+    [Test]
     public void SelectingAnIssueSchedulesClaudeToStartOnItAfterThePause()
     {
         _sidebar.SelectedItem = ItemNumbered(4);

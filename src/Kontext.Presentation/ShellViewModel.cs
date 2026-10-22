@@ -111,6 +111,7 @@ public sealed partial class ShellViewModel(IGitHubService gitHub, IGitHubTokenSt
         gitHub.SignOut();
         tokenStore.Clear();
         Workspace.Sidebar.Clear();
+        Workspace.IsSettingsOpen = false;
         ErrorMessage = null;
         User = null;
     }

@@ -33,10 +33,28 @@ public sealed partial class WorkspaceView : UserControl
         set => SetValue(ControlHostProperty, value);
     }
 
+    private void Navigation_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
+    {
+        if (args.IsSettingsInvoked && ViewModel is not null)
+        {
+            ViewModel.Workspace.IsSettingsOpen = true;
+        }
+    }
+
     private void Navigation_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
     {
-        if (args.SelectedItem is IssueItemViewModel issue && ViewModel is not null)
+        if (ViewModel is null)
         {
+            return;
+        }
+
+        if (args.IsSettingsSelected)
+        {
+            ViewModel.Workspace.IsSettingsOpen = true;
+        }
+        else if (args.SelectedItem is IssueItemViewModel issue)
+        {
+            ViewModel.Workspace.IsSettingsOpen = false;
             ViewModel.Workspace.Sidebar.SelectedItem = issue;
         }
     }

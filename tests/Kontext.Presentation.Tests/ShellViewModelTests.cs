@@ -175,4 +175,18 @@ public class ShellViewModelTests
         Assert.That(_shell.IsSignedIn, Is.False);
         Assert.That(_shell.ShowSignIn, Is.True, "startup is over, so the form is shown");
     }
+
+    [Test]
+    public async Task SigningOutClosesTheSettingsSoTheNextSignInStartsOnTheIssues()
+    {
+        Build(savedToken: "ghp_saved");
+        await _shell.InitializeCommand.ExecuteAsync(null);
+        await AsyncAssert.EventuallyAsync(() => _sidebar.Groups.Count == 1, "the sidebar to load");
+        _shell.Workspace.IsSettingsOpen = true;
+
+        _shell.SignOutCommand.Execute(null);
+
+        Assert.That(_shell.Workspace.IsSettingsOpen, Is.False);
+        Assert.That(_shell.Workspace.IsDetailVisible, Is.True);
+    }
 }

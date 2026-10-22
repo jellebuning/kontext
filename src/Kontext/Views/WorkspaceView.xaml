@@ -57,7 +57,8 @@
         x:Name="Navigation"
         IsBackButtonVisible="Collapsed"
         IsPaneToggleButtonVisible="False"
-        IsSettingsVisible="False"
+        IsSettingsVisible="True"
+        ItemInvoked="Navigation_ItemInvoked"
         SelectionChanged="Navigation_SelectionChanged"
         MenuItemTemplateSelector="{StaticResource SidebarTemplateSelector}"
         MenuItemsSource="{x:Bind ViewModel.Workspace.Sidebar.Groups, Mode=OneWay}"
@@ -115,6 +116,14 @@
             </StackPanel>
         </NavigationView.PaneFooter>
 
-        <views:IssueDetailView ControlHost="{x:Bind ControlHost, Mode=OneWay}" ViewModel="{x:Bind ViewModel.Workspace.Detail}" />
+        <Grid>
+            <views:IssueDetailView
+                ControlHost="{x:Bind ControlHost, Mode=OneWay}"
+                ViewModel="{x:Bind ViewModel.Workspace.Detail}"
+                Visibility="{x:Bind ViewModel.Workspace.IsDetailVisible, Mode=OneWay}" />
+            <views:SettingsView
+                ViewModel="{x:Bind ViewModel}"
+                Visibility="{x:Bind ViewModel.Workspace.IsSettingsOpen, Mode=OneWay}" />
+        </Grid>
     </NavigationView>
 </UserControl>
