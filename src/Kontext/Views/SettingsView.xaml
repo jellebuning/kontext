@@ -1,0 +1,101 @@
+<UserControl
+    x:Class="Kontext.Views.SettingsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <UserControl.Resources>
+        <Style x:Key="SettingsCardStyle" TargetType="Border">
+            <Setter Property="MinHeight" Value="68" />
+            <Setter Property="Padding" Value="16" />
+            <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
+            <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        </Style>
+
+        <Style x:Key="SettingsDescriptionStyle" BasedOn="{StaticResource CaptionTextBlockStyle}" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+    </UserControl.Resources>
+
+    <ScrollViewer>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="100*" MaxWidth="1000" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel
+                Grid.Column="1"
+                Padding="36,24"
+                Spacing="24">
+                <TextBlock
+                    AutomationProperties.HeadingLevel="Level1"
+                    Style="{StaticResource TitleTextBlockStyle}"
+                    Text="Settings" />
+
+                <StackPanel Spacing="4">
+                    <TextBlock
+                        Margin="1,0,0,4"
+                        AutomationProperties.HeadingLevel="Level2"
+                        Style="{StaticResource BodyStrongTextBlockStyle}"
+                        Text="Account" />
+
+                    <Border Style="{StaticResource SettingsCardStyle}">
+                        <Grid VerticalAlignment="Center" ColumnSpacing="16">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <FontIcon
+                                AutomationProperties.AccessibilityView="Raw"
+                                FontSize="20"
+                                Glyph="&#xE77B;" />
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Text="GitHub account" />
+                                <TextBlock Style="{StaticResource SettingsDescriptionStyle}" Text="{x:Bind ViewModel.SignedInText, Mode=OneWay}" />
+                            </StackPanel>
+                            <Button
+                                Grid.Column="2"
+                                MinWidth="90"
+                                VerticalAlignment="Center"
+                                AutomationProperties.Name="Sign out"
+                                Command="{x:Bind ViewModel.SignOutCommand}"
+                                Content="Sign out" />
+                        </Grid>
+                    </Border>
+                </StackPanel>
+
+                <StackPanel Spacing="4">
+                    <TextBlock
+                        Margin="1,0,0,4"
+                        AutomationProperties.HeadingLevel="Level2"
+                        Style="{StaticResource BodyStrongTextBlockStyle}"
+                        Text="About" />
+
+                    <Border Style="{StaticResource SettingsCardStyle}">
+                        <Grid VerticalAlignment="Center" ColumnSpacing="16">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <FontIcon
+                                AutomationProperties.AccessibilityView="Raw"
+                                FontSize="20"
+                                Glyph="&#xE946;" />
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Text="Kontext" />
+                                <TextBlock Style="{StaticResource SettingsDescriptionStyle}" Text="{x:Bind AppVersion}" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

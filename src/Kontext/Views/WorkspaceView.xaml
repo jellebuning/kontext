@@ -57,7 +57,8 @@
         x:Name="Navigation"
         IsBackButtonVisible="Collapsed"
         IsPaneToggleButtonVisible="False"
-        IsSettingsVisible="False"
+        IsSettingsVisible="True"
+        ItemInvoked="Navigation_ItemInvoked"
         SelectionChanged="Navigation_SelectionChanged"
         MenuItemTemplateSelector="{StaticResource SidebarTemplateSelector}"
         MenuItemsSource="{x:Bind ViewModel.Workspace.Sidebar.Groups, Mode=OneWay}"
@@ -97,24 +98,24 @@
         </NavigationView.PaneCustomContent>
 
         <NavigationView.PaneFooter>
-            <StackPanel Margin="16,8" Spacing="8">
-                <TextBlock
-                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                    Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="{x:Bind ViewModel.SignedInText, Mode=OneWay}"
-                    TextWrapping="Wrap" />
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Button
-                        AutomationProperties.Name="Refresh"
-                        Command="{x:Bind ViewModel.Workspace.Sidebar.RefreshCommand}"
-                        ToolTipService.ToolTip="Refresh">
-                        <FontIcon FontSize="14" Glyph="&#xE72C;" />
-                    </Button>
-                    <Button Command="{x:Bind ViewModel.SignOutCommand}" Content="Sign out" />
-                </StackPanel>
+            <StackPanel Margin="16,8">
+                <Button
+                    AutomationProperties.Name="Refresh"
+                    Command="{x:Bind ViewModel.Workspace.Sidebar.RefreshCommand}"
+                    ToolTipService.ToolTip="Refresh">
+                    <FontIcon FontSize="14" Glyph="&#xE72C;" />
+                </Button>
             </StackPanel>
         </NavigationView.PaneFooter>
 
-        <views:IssueDetailView ControlHost="{x:Bind ControlHost, Mode=OneWay}" ViewModel="{x:Bind ViewModel.Workspace.Detail}" />
+        <Grid>
+            <views:IssueDetailView
+                ControlHost="{x:Bind ControlHost, Mode=OneWay}"
+                ViewModel="{x:Bind ViewModel.Workspace.Detail}"
+                Visibility="{x:Bind ViewModel.Workspace.IsDetailVisible, Mode=OneWay}" />
+            <views:SettingsView
+                ViewModel="{x:Bind ViewModel}"
+                Visibility="{x:Bind ViewModel.Workspace.IsSettingsOpen, Mode=OneWay}" />
+        </Grid>
     </NavigationView>
 </UserControl>
