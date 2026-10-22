@@ -7,6 +7,7 @@ public sealed class MouseReportingState
     private const int ModeDrag = 1002;
     private const int ModeAnyMotion = 1003;
     private const int ModeSgr = 1006;
+    private const int ModeBracketedPaste = 2004;
 
     private const int MaxSequenceLength = 40;
 
@@ -16,6 +17,7 @@ public sealed class MouseReportingState
     private bool _drag;
     private bool _anyMotion;
     private bool _sgr;
+    private bool _bracketedPaste;
     private string _unfinished = string.Empty;
 
     public MouseTracking Tracking
@@ -39,6 +41,17 @@ public sealed class MouseReportingState
             lock (_gate)
             {
                 return _sgr;
+            }
+        }
+    }
+
+    public bool UsesBracketedPaste
+    {
+        get
+        {
+            lock (_gate)
+            {
+                return _bracketedPaste;
             }
         }
     }
@@ -149,6 +162,9 @@ public sealed class MouseReportingState
                 case ModeSgr:
                     _sgr = on;
                     break;
+                case ModeBracketedPaste:
+                    _bracketedPaste = on;
+                    break;
             }
         }
     }
@@ -159,5 +175,6 @@ public sealed class MouseReportingState
         _drag = false;
         _anyMotion = false;
         _sgr = false;
+        _bracketedPaste = false;
     }
 }

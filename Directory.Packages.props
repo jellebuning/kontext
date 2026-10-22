@@ -3,6 +3,7 @@
     <PackageVersion Include="CommunityToolkit.Labs.WinUI.Controls.MarkdownTextBlock" Version="0.1.251217-build.2433" />
     <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.4.2" />
     <PackageVersion Include="EasyWindowsTerminalControl.WinUI" Version="1.0.20-beta.1" />
+    <PackageVersion Include="GitHubActionsTestLogger" Version="3.0.5" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.13" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.13" />
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.13" />
