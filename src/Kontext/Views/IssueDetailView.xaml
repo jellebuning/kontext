@@ -1,0 +1,236 @@
+<UserControl
+    x:Class="Kontext.Views.IssueDetailView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:terminal="using:Kontext.Terminal"
+    xmlns:views="using:Kontext.Views">
+
+    <Grid>
+        <StackPanel
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Spacing="16"
+            Visibility="{x:Bind ViewModel.HasNoSelection, Mode=OneWay}">
+            <Image
+                Width="96"
+                Height="96"
+                AutomationProperties.AccessibilityView="Raw"
+                Source="ms-appx:///Assets/Kontext.png" />
+            <TextBlock
+                HorizontalAlignment="Center"
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                Style="{StaticResource SubtitleTextBlockStyle}"
+                Text="Select an issue" />
+        </StackPanel>
+
+        <Grid
+            Padding="32,24,32,16"
+            RowSpacing="12"
+            Visibility="{x:Bind ViewModel.HasSelection, Mode=OneWay}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid ColumnSpacing="16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <StackPanel Spacing="4">
+                    <TextBlock
+                        Style="{StaticResource SubtitleTextBlockStyle}"
+                        Text="{x:Bind ViewModel.Title, Mode=OneWay}"
+                        TextWrapping="Wrap" />
+
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Text="{x:Bind ViewModel.RepositoryName, Mode=OneWay}" />
+                        <HyperlinkButton
+                            Padding="0"
+                            VerticalAlignment="Center"
+                            AutomationProperties.Name="Open issue on GitHub"
+                            Content="{x:Bind ViewModel.NumberText, Mode=OneWay}"
+                            NavigateUri="{x:Bind ViewModel.Url, Mode=OneWay}"
+                            ToolTipService.ToolTip="Open on GitHub" />
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                            Text="{x:Bind ViewModel.Subtitle, Mode=OneWay}" />
+                    </StackPanel>
+
+                    <StackPanel
+                        Margin="0,4,0,0"
+                        Orientation="Horizontal"
+                        Spacing="8">
+                        <views:IssueStatusBadge VerticalAlignment="Center" Status="{x:Bind ViewModel.Status, Mode=OneWay}" />
+                        <TextBlock VerticalAlignment="Center" Text="{x:Bind ViewModel.StatusText, Mode=OneWay}" />
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                            Text="{x:Bind ViewModel.LabelsText, Mode=OneWay}"
+                            Visibility="{x:Bind ViewModel.HasLabels, Mode=OneWay}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="8">
+                    <Button
+                        Command="{x:Bind ViewModel.ClearSessionCommand}"
+                        ToolTipService.ToolTip="Remove the worktree and the branch"
+                        Visibility="{x:Bind ViewModel.CanClearSession, Mode=OneWay}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="14" Glyph="&#xE74D;" />
+                            <TextBlock Text="Clear session" />
+                        </StackPanel>
+                    </Button>
+                    <DropDownButton
+                        AutomationProperties.Name="Open the worktree in"
+                        Visibility="{x:Bind ViewModel.HasWorkspace, Mode=OneWay}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="14" Glyph="&#xE8A7;" />
+                            <TextBlock Text="Open in" />
+                        </StackPanel>
+                        <DropDownButton.Flyout>
+                            <MenuFlyout Placement="BottomEdgeAlignedRight">
+                                <MenuFlyoutItem Click="OpenInExplorer_Click" Text="File Explorer">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE838;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Click="OpenInTerminal_Click" Text="Terminal">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE756;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Click="OpenInVisualStudio_Click" Text="Visual Studio">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE943;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                            </MenuFlyout>
+                        </DropDownButton.Flyout>
+                    </DropDownButton>
+                </StackPanel>
+
+                <Border
+                    Grid.Row="1"
+                    Grid.ColumnSpan="2"
+                    Margin="0,12,0,0"
+                    Padding="12,8"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Visibility="{x:Bind ViewModel.HasWorkspace, Mode=OneWay}">
+                    <Grid ColumnSpacing="16" RowSpacing="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="72" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Text="Branch" />
+                        <TextBlock
+                            Grid.Column="1"
+                            IsTextSelectionEnabled="True"
+                            Text="{x:Bind ViewModel.BranchName, Mode=OneWay}"
+                            TextTrimming="CharacterEllipsis" />
+
+                        <TextBlock
+                            Grid.Row="1"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Text="Worktree" />
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            IsTextSelectionEnabled="True"
+                            Text="{x:Bind ViewModel.WorktreePath, Mode=OneWay}"
+                            TextTrimming="CharacterEllipsis"
+                            ToolTipService.ToolTip="{x:Bind ViewModel.WorktreePath, Mode=OneWay}" />
+
+                        <TextBlock
+                            Grid.Row="2"
+                            Grid.ColumnSpan="2"
+                            Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                            Text="{x:Bind ViewModel.ToolError, Mode=OneWay}"
+                            TextWrapping="Wrap"
+                            Visibility="{x:Bind ViewModel.HasToolError, Mode=OneWay}" />
+                    </Grid>
+                </Border>
+            </Grid>
+            <SelectorBar x:Name="Tabs" Grid.Row="1" SelectionChanged="Tabs_SelectionChanged">
+                <SelectorBarItem
+                    x:Name="TerminalTab"
+                    IsSelected="True"
+                    Text="Terminal" />
+                <SelectorBarItem x:Name="IssueTab" Text="Issue" />
+            </SelectorBar>
+
+            <Grid Grid.Row="2">
+                <Grid Visibility="{x:Bind ViewModel.ShowTerminalTab, Mode=OneWay}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid>
+                        <terminal:TerminalSurface
+                            ControlHost="{x:Bind ControlHost, Mode=OneWay}"
+                            Session="{x:Bind ViewModel.VisibleSession, Mode=OneWay}"
+                            Visibility="{x:Bind ViewModel.HasSession, Mode=OneWay}" />
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Text="{x:Bind ViewModel.TerminalPlaceholder, Mode=OneWay}"
+                            TextWrapping="Wrap"
+                            Visibility="{x:Bind ViewModel.HasNoSession, Mode=OneWay}" />
+                    </Grid>
+
+                    <Border
+                        Grid.Row="1"
+                        Margin="0,8,0,0"
+                        Padding="12,8"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="8"
+                        Visibility="{x:Bind ViewModel.HasEnded, Mode=OneWay}">
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind ViewModel.EndedText, Mode=OneWay}" />
+                            <HyperlinkButton
+                                VerticalAlignment="Center"
+                                AutomationProperties.Name="Resume session"
+                                Command="{x:Bind ViewModel.ResumeCommand}"
+                                Content="Resume" />
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <ScrollViewer Visibility="{x:Bind ViewModel.ShowIssueTab, Mode=OneWay}">
+                    <StackPanel MaxWidth="900" Spacing="16">
+                        <views:IssueBodyView Markdown="{x:Bind ViewModel.Body, Mode=OneWay}" />
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,57 @@
+<UserControl
+    x:Class="Kontext.Views.SignInView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <StackPanel
+        MaxWidth="440"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        Spacing="16">
+
+        <Image
+            Width="72"
+            Height="72"
+            HorizontalAlignment="Left"
+            AutomationProperties.AccessibilityView="Raw"
+            Source="ms-appx:///Assets/Kontext.png" />
+
+        <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="Sign in to GitHub" />
+
+        <TextBlock
+            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+            Style="{StaticResource BodyTextBlockStyle}"
+            TextWrapping="Wrap">
+            Kontext uses a personal access token to read your boards and issues. The token is stored encrypted in Windows Credential Locker.
+        </TextBlock>
+
+        <HyperlinkButton
+            Padding="0"
+            Content="Create a token on GitHub (repo scope pre-selected)"
+            NavigateUri="https://github.com/settings/tokens/new?description=Kontext&amp;scopes=repo" />
+
+        <PasswordBox
+            x:Name="TokenBox"
+            Header="Personal access token"
+            KeyDown="TokenBox_KeyDown"
+            Password="{x:Bind ViewModel.Token, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            PlaceholderText="ghp_… or github_pat_…" />
+
+        <InfoBar
+            IsClosable="False"
+            IsOpen="{x:Bind ViewModel.HasError, Mode=OneWay}"
+            Message="{x:Bind ViewModel.ErrorMessage, Mode=OneWay}"
+            Severity="Error" />
+
+        <StackPanel Orientation="Horizontal" Spacing="12">
+            <Button
+                Command="{x:Bind ViewModel.SignInCommand}"
+                Content="Sign in"
+                Style="{StaticResource AccentButtonStyle}" />
+            <ProgressRing
+                Width="20"
+                Height="20"
+                IsActive="{x:Bind ViewModel.IsBusy, Mode=OneWay}" />
+        </StackPanel>
+    </StackPanel>
+</UserControl>

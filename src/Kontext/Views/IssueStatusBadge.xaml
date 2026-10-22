@@ -1,0 +1,90 @@
+<UserControl
+    x:Class="Kontext.Views.IssueStatusBadge"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <SolidColorBrush x:Key="ActiveSessionBrush" Color="#FDC007" />
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="ClosedIssueBrush" Color="#8250DF" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="ClosedIssueBrush" Color="#A371F7" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid Width="16" Height="16">
+        <ProgressRing
+            x:Name="Ring"
+            Width="14"
+            Height="14"
+            IsActive="True"
+            Visibility="Collapsed" />
+
+        <Ellipse
+            x:Name="Dot"
+            Width="10"
+            Height="10"
+            StrokeThickness="1.5"
+            Visibility="Collapsed" />
+
+        <FontIcon
+            x:Name="Glyph"
+            FontSize="14"
+            Visibility="Collapsed" />
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="StatusStates">
+                <VisualState x:Name="NotStarted">
+                    <VisualState.Setters>
+                        <Setter Target="Dot.Visibility" Value="Visible" />
+                        <Setter Target="Dot.Stroke" Value="{ThemeResource TextFillColorTertiaryBrush}" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Preparing">
+                    <VisualState.Setters>
+                        <Setter Target="Ring.Visibility" Value="Visible" />
+                        <Setter Target="Ring.Foreground" Value="{ThemeResource SystemFillColorAttentionBrush}" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Ready">
+                    <VisualState.Setters>
+                        <Setter Target="Dot.Visibility" Value="Visible" />
+                        <Setter Target="Dot.Stroke" Value="{ThemeResource SystemFillColorAttentionBrush}" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Running">
+                    <VisualState.Setters>
+                        <Setter Target="Dot.Visibility" Value="Visible" />
+                        <Setter Target="Dot.Stroke" Value="{StaticResource ActiveSessionBrush}" />
+                        <Setter Target="Dot.Fill" Value="{StaticResource ActiveSessionBrush}" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="NeedsInput">
+                    <VisualState.Setters>
+                        <Setter Target="Dot.Visibility" Value="Visible" />
+                        <Setter Target="Dot.Stroke" Value="{ThemeResource SystemFillColorAttentionBrush}" />
+                        <Setter Target="Dot.Fill" Value="{ThemeResource SystemFillColorAttentionBrush}" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Done">
+                    <VisualState.Setters>
+                        <Setter Target="Dot.Visibility" Value="Visible" />
+                        <Setter Target="Dot.Stroke" Value="{ThemeResource ClosedIssueBrush}" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Failed">
+                    <VisualState.Setters>
+                        <Setter Target="Glyph.Visibility" Value="Visible" />
+                        <Setter Target="Glyph.Glyph" Value="&#xE783;" />
+                        <Setter Target="Glyph.Foreground" Value="{ThemeResource SystemFillColorCriticalBrush}" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+</UserControl>

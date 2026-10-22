@@ -1,0 +1,8 @@
+<UserControl
+    x:Class="Kontext.Terminal.TerminalSurface"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:terminal="using:Kontext.Terminal"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <terminal:AutomationLeafGrid x:Name="Root" AutomationProperties.Name="Claude terminal" />
+</UserControl>

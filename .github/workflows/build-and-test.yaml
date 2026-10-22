@@ -7,15 +7,11 @@ on:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+    # WinUI 3 (Kontext) and ConPTY (Kontext.TerminalHost) only build on Windows.
+    runs-on: windows-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v7
-
-      - run: echo ${{matrix.os}}
 
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v6
@@ -28,7 +24,7 @@ jobs:
           path: |
             ~/.nuget/packages
             !~/.nuget/packages/unwanted
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/Directory.Packages.props') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
 

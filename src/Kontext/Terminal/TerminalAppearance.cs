@@ -1,0 +1,26 @@
+using Microsoft.Terminal.Wpf;
+using Microsoft.UI.Xaml.Media;
+
+namespace Kontext.Terminal;
+
+internal static class TerminalAppearance
+{
+    public static FontFamily Font { get; } = new("Cascadia Mono");
+
+    public static TerminalTheme Theme { get; } = new()
+    {
+        DefaultBackground = Colour(0x0C, 0x0C, 0x0C),
+        DefaultForeground = Colour(0xCC, 0xCC, 0xCC),
+        DefaultSelectionBackground = Colour(0xFF, 0xFF, 0xFF),
+        CursorStyle = CursorStyle.BlinkingUnderline,
+        ColorTable =
+        [
+            Colour(0x0C, 0x0C, 0x0C), Colour(0xC5, 0x0F, 0x1F), Colour(0x13, 0xA1, 0x0E), Colour(0xC1, 0x9C, 0x00),
+            Colour(0x00, 0x37, 0xDA), Colour(0x88, 0x17, 0x98), Colour(0x3A, 0x96, 0xDD), Colour(0xCC, 0xCC, 0xCC),
+            Colour(0x76, 0x76, 0x76), Colour(0xE7, 0x48, 0x56), Colour(0x16, 0xC6, 0x0C), Colour(0xF9, 0xF1, 0xA5),
+            Colour(0x3B, 0x78, 0xFF), Colour(0xB4, 0x00, 0x9E), Colour(0x61, 0xD6, 0xD6), Colour(0xF2, 0xF2, 0xF2),
+        ],
+    };
+
+    private static uint Colour(byte red, byte green, byte blue) => (uint)(red | (green << 8) | (blue << 16));
+}

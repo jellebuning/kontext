@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <RootNamespace>Kontext</RootNamespace>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets\Kontext.ico</ApplicationIcon>
+    <RuntimeIdentifiers>win-x64;win-arm64</RuntimeIdentifiers>
+    <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">$(NETCoreSdkRuntimeIdentifier)</RuntimeIdentifier>
+    <UseWinUI>true</UseWinUI>
+    <EnableMsixTooling>true</EnableMsixTooling>
+    <WindowsPackageType>None</WindowsPackageType>
+    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\Kontext.ico" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Assets\Kontext.png" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Kontext.Claude\Kontext.Claude.csproj" />
+    <ProjectReference Include="..\Kontext.ExternalTools\Kontext.ExternalTools.csproj" />
+    <ProjectReference Include="..\Kontext.Kernel\Kontext.Kernel.csproj" />
+    <ProjectReference Include="..\Kontext.Domain\Kontext.Domain.csproj" />
+    <ProjectReference Include="..\Kontext.Contracts\Kontext.Contracts.csproj" />
+    <ProjectReference Include="..\Kontext.GitHub\Kontext.GitHub.csproj" />
+    <ProjectReference Include="..\Kontext.GitAutomation\Kontext.GitAutomation.csproj" />
+    <ProjectReference Include="..\Kontext.Presentation\Kontext.Presentation.csproj" />
+    <ProjectReference Include="..\Kontext.Sessions\Kontext.Sessions.csproj" />
+    <ProjectReference Include="..\Kontext.TerminalHost\Kontext.TerminalHost.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Labs.WinUI.Controls.MarkdownTextBlock" />
+    <PackageReference Include="CommunityToolkit.Mvvm" />
+    <PackageReference Include="EasyWindowsTerminalControl.WinUI" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" />
+  </ItemGroup>
+
+</Project>

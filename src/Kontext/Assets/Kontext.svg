@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 48 48" role="img" aria-label="Kontext">
+  <defs>
+    <linearGradient id="bottom-top" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#376ABB" />
+      <stop offset="1" stop-color="#2D4E82" />
+    </linearGradient>
+    <linearGradient id="middle-top" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#55A1D1" />
+      <stop offset="1" stop-color="#376ABB" />
+    </linearGradient>
+    <linearGradient id="upper-top" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6CBEEE" />
+      <stop offset="1" stop-color="#55A1D1" />
+    </linearGradient>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="150%">
+      <feGaussianBlur stdDeviation="1.1" />
+    </filter>
+  </defs>
+
+  <g stroke-linejoin="round" stroke-width="1.3">
+    <polygon points="3,29.85 24,19.35 45,29.85 45,33.55 24,44.05 3,33.55" fill="#0C1C40" opacity="0.30" filter="url(#soft)" transform="translate(0 1)" />
+    <polygon points="3,29.85 24,40.35 24,44.05 3,33.55" fill="#2D4E82" stroke="#2D4E82" />
+    <polygon points="45,29.85 24,40.35 24,44.05 45,33.55" fill="#2D4E82" stroke="#2D4E82" />
+    <polygon points="3,29.85 24,19.35 45,29.85 24,40.35" fill="url(#bottom-top)" stroke="#325C9E" />
+
+    <polygon points="3,22.15 24,11.65 45,22.15 45,25.85 24,36.35 3,25.85" fill="#0C1C40" opacity="0.32" filter="url(#soft)" transform="translate(0 1)" />
+    <polygon points="3,22.15 24,32.65 24,36.35 3,25.85" fill="#376ABB" stroke="#376ABB" />
+    <polygon points="45,22.15 24,32.65 24,36.35 45,25.85" fill="#2D4E82" stroke="#2D4E82" />
+    <polygon points="3,22.15 24,11.65 45,22.15 24,32.65" fill="url(#middle-top)" stroke="#4686C6" />
+
+    <polygon points="3,14.45 24,3.95 45,14.45 45,18.15 24,28.65 3,18.15" fill="#0C1C40" opacity="0.35" filter="url(#soft)" transform="translate(0 1)" />
+    <polygon points="3,14.45 24,24.95 24,28.65 3,18.15" fill="#55A1D1" stroke="#55A1D1" />
+    <polygon points="45,14.45 24,24.95 24,28.65 45,18.15" fill="#376ABB" stroke="#376ABB" />
+    <polygon points="3,14.45 24,3.95 45,14.45 24,24.95" fill="url(#upper-top)" stroke="#61B0E0" />
+  </g>
+
+  <g transform="matrix(10.5 5.25 -10.5 5.25 24 14.45)">
+    <polyline points="-0.58,-0.10 0.13,-0.13 0.10,0.58" fill="none" stroke="#2D4E82" stroke-width="0.17" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+</svg>

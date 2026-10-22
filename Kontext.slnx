@@ -1,0 +1,27 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Kontext.Claude/Kontext.Claude.csproj" />
+    <Project Path="src/Kontext.Contracts/Kontext.Contracts.csproj" />
+    <Project Path="src/Kontext.Domain/Kontext.Domain.csproj" />
+    <Project Path="src/Kontext.Kernel/Kontext.Kernel.csproj" />
+    <Project Path="src/Kontext.ExternalTools/Kontext.ExternalTools.csproj" />
+    <Project Path="src/Kontext.GitAutomation/Kontext.GitAutomation.csproj" />
+    <Project Path="src/Kontext.GitHub/Kontext.GitHub.csproj" />
+    <Project Path="src/Kontext.Presentation/Kontext.Presentation.csproj" />
+    <Project Path="src/Kontext.Sessions/Kontext.Sessions.csproj" />
+    <Project Path="src/Kontext.TerminalHost/Kontext.TerminalHost.csproj" />
+    <Project Path="src/Kontext/Kontext.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Kontext.ArchitectureTests/Kontext.ArchitectureTests.csproj" />
+    <Project Path="tests/Kontext.Claude.Tests/Kontext.Claude.Tests.csproj" />
+    <Project Path="tests/Kontext.CompositionTests/Kontext.CompositionTests.csproj" />
+    <Project Path="tests/Kontext.ExternalTools.Tests/Kontext.ExternalTools.Tests.csproj" />
+    <Project Path="tests/Kontext.GitAutomation.Tests/Kontext.GitAutomation.Tests.csproj" />
+    <Project Path="tests/Kontext.GitHub.Tests/Kontext.GitHub.Tests.csproj" />
+    <Project Path="tests/Kontext.Presentation.Tests/Kontext.Presentation.Tests.csproj" />
+    <Project Path="tests/Kontext.Sessions.Tests/Kontext.Sessions.Tests.csproj" />
+    <Project Path="tests/Kontext.TerminalHost.Tests/Kontext.TerminalHost.Tests.csproj" />
+    <Project Path="tests/Kontext.TestSupport/Kontext.TestSupport.csproj" />
+  </Folder>
+</Solution>
