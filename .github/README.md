@@ -1,6 +1,8 @@
 <div id="top"></div>
 
-[![Build and test][build-shield]][build-url]
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![GNU Affero General Public License v3.0 License][license-shield]][license-url]
 
@@ -16,6 +18,7 @@
   </p>
 </div>
 
+<!-- TABLE OF CONTENTS -->
 <details>
   <summary>Table of Contents</summary>
   <ol>
@@ -39,9 +42,11 @@
   </ol>
 </details>
 
+
+
 ## About The Project
 
-Kontext lets you work on all your repositories' issues at once and leave Claude running. Pick an issue and Kontext gives it its own git worktree and an embedded Claude Code terminal, shows you what changed, and lets you switch between issues instantly. The sidebar shows at a glance which issues are idle, working or waiting for you.
+Kontext lets you work on all your repositories' issues at once and leave Claude running. Pick an issue and Kontext gives it its own git worktree and an embedded Claude Code terminal, lets you open that worktree in your own tools, and lets you switch between issues instantly. The sidebar shows at a glance which issues are idle, working or waiting for you.
 
 ### Features
 
@@ -51,19 +56,24 @@ Kontext lets you work on all your repositories' issues at once and leave Claude 
 * **Resume where you left off.** Sessions are remembered per issue and continued with `claude --resume` after a restart.
 * **Open it anywhere.** Open a worktree in File Explorer, Windows Terminal or Visual Studio from the issue's header.
 * **Clean up when done.** For a closed issue, Clear session removes the worktree and its branch.
+* **Modern Architecture:** Built with SOLID principles and design patterns for maximum maintainability: a modular monolith with compiler-enforced module boundaries.
 * **Native Windows look.** WinUI 3 with Mica, light and dark themes, and a terminal with zoom and mouse support.
 
 ### Built With
 
 * [.NET 10](https://dotnet.microsoft.com/) and [WinUI 3 / Windows App SDK](https://learn.microsoft.com/windows/apps/windows-app-sdk/)
-* [CommunityToolkit.Mvvm](https://learn.microsoft.com/dotnet/communitytoolkit/mvvm/) and `Microsoft.Extensions.DependencyInjection`
+* [CommunityToolkit.Mvvm](https://learn.microsoft.com/dotnet/communitytoolkit/mvvm/) and `Microsoft.Extensions.Hosting` (dependency injection)
+* [CommunityToolkit Labs MarkdownTextBlock](https://github.com/CommunityToolkit/Labs-Windows) for the issue descriptions
 * [Octokit](https://github.com/octokit/octokit.net) for GitHub
 * [EasyWindowsTerminalControl](https://github.com/mitchcapper/EasyWindowsTerminalControl) for the embedded terminal
 * [NUnit](https://nunit.org/) for tests
 
-The code is a modular monolith with compiler-enforced module boundaries: three small shared projects hold what the modules exchange (`Kontext.Kernel` the basics, `Kontext.Domain` the data types, `Kontext.Contracts` the interfaces), each feature module (GitHub, GitAutomation, TerminalHost, Claude, ExternalTools, Sessions, Presentation) references only those, and only the WinUI project `Kontext` references them all and wires them together.
+Three small shared projects hold what the modules exchange (`Kontext.Kernel` the basics, `Kontext.Domain` the data types, `Kontext.Contracts` the interfaces). Each feature module (GitHub, GitAutomation, TerminalHost, Claude, ExternalTools, Sessions, Presentation) references only those, and only the WinUI project `Kontext` references them all and wires them together.
 
 ## Getting Started
+Setting up this solution on your local machine is straightforward and will enable you to fully utilize its capabilities. This guide will walk you through the necessary steps to get everything running smoothly.
+
+Before beginning, ensure that your development environment is properly configured. Having the required software and dependencies installed will prevent common issues and streamline the process.
 
 ### Requirements
 
@@ -90,9 +100,13 @@ dotnet test Kontext.slnx -c Release
 
 Warnings are treated as errors. The tests include integration tests that run real `git` against a temporary repository.
 
+<!-- CONTRIBUTING -->
 ## Contributing
 
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
 If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+Don't forget to give the project a star! Thanks again!
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b features/feature-title`)
@@ -102,15 +116,25 @@ If you have a suggestion that would make this better, please fork the repo and c
 
 Keep the module boundaries described under [Built With](#built-with): every module references only the shared projects, and `tests/Kontext.ArchitectureTests` enforces it.
 
-## License
 
-Distributed under the GNU Affero General Public License v3.0. See `LICENSE` for more information.
+<!-- LICENSE -->
+## License
+Distributed under the GNU Affero General Public License v3.0 License. See `LICENSE` for more information.
+
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-[build-shield]: https://github.com/jellebuning/kontext/actions/workflows/build-and-test.yaml/badge.svg
-[build-url]: https://github.com/jellebuning/kontext/actions/workflows/build-and-test.yaml
-[issues-shield]: https://img.shields.io/github/issues/jellebuning/kontext.svg?style=flat
+
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[contributors-shield]: https://img.shields.io/github/contributors/jellebuning/kontext.svg?style=for-the-badge
+[contributors-url]: https://github.com/jellebuning/kontext/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/jellebuning/kontext.svg?style=for-the-badge
+[forks-url]: https://github.com/jellebuning/kontext/network/members
+[stars-shield]: https://img.shields.io/github/stars/jellebuning/kontext.svg?style=for-the-badge
+[stars-url]: https://github.com/jellebuning/kontext/stargazers
+[issues-shield]: https://img.shields.io/github/issues/jellebuning/kontext.svg?style=for-the-badge
 [issues-url]: https://github.com/jellebuning/kontext/issues
-[license-shield]: https://img.shields.io/github/license/jellebuning/kontext.svg?style=flat
+[license-shield]: https://img.shields.io/github/license/jellebuning/kontext.svg?style=for-the-badge
 [license-url]: https://github.com/jellebuning/kontext/blob/main/LICENSE
