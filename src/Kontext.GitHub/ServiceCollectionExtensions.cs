@@ -9,6 +9,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddSingleton(options);
         services.AddSingleton(new HttpClient());
+        services.AddSingleton<GitHubFormPoster>();
         services.AddSingleton<IGitHubDeviceLogin, GitHubDeviceLogin>();
         services.AddSingleton<IGitHubService, GitHubService>();
         return services;

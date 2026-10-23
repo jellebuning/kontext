@@ -3,23 +3,6 @@ using Kontext.Domain;
 
 namespace Kontext.GitHub;
 
-internal enum DeviceTokenStatus
-{
-    Granted,
-    Pending,
-    SlowDown,
-    Expired,
-    Denied,
-    Failed,
-}
-
-internal sealed record DeviceTokenResult(
-    DeviceTokenStatus Status,
-    string? Token = null,
-    int? IntervalSeconds = null,
-    string? Error = null,
-    string? Description = null);
-
 internal static class DeviceFlowResponses
 {
     private const int DefaultIntervalSeconds = 5;
@@ -74,11 +57,11 @@ internal static class DeviceFlowResponses
             "expired_token" => new DeviceTokenResult(DeviceTokenStatus.Expired),
             "access_denied" => new DeviceTokenResult(DeviceTokenStatus.Denied),
             null => throw Unexpected(),
-            _ => new DeviceTokenResult(DeviceTokenStatus.Failed, Error: error, Description: description),
+            _ => new DeviceTokenResult(DeviceTokenStatus.Failed, Message: Describe(error, description)),
         };
     }
 
-    public static string Describe(string error, string? description) =>
+    private static string Describe(string error, string? description) =>
         string.IsNullOrWhiteSpace(description) ? $"GitHub sign-in failed ({error})." : $"GitHub sign-in failed: {description}";
 
     private static JsonDocument Parse(string json)
