@@ -1,8 +1,6 @@
 using Kontext.Presentation;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
-using Windows.System;
 
 namespace Kontext.Views;
 
@@ -20,13 +18,5 @@ public sealed partial class SignInView : UserControl
     {
         get => (ShellViewModel?)GetValue(ViewModelProperty);
         set => SetValue(ViewModelProperty, value);
-    }
-
-    private void TokenBox_KeyDown(object sender, KeyRoutedEventArgs e)
-    {
-        if (e.Key == VirtualKey.Enter && ViewModel?.SignInCommand.CanExecute(null) == true)
-        {
-            ViewModel.SignInCommand.Execute(null);
-        }
     }
 }

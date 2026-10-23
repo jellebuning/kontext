@@ -81,7 +81,11 @@ Before beginning, ensure that your development environment is properly configure
 * [.NET 10 SDK](https://dotnet.microsoft.com/download)
 * [Git for Windows](https://git-scm.com/download/win) on your `PATH`
 * The [Claude Code](https://docs.claude.com/en/docs/claude-code) CLI (`claude`) on your `PATH`
-* A GitHub personal access token with the `repo` scope; Kontext asks for it on first start and stores it in Windows Credential Locker
+* A GitHub account; you sign in with it on first start (GitHub device flow) and Kontext stores the resulting token in Windows Credential Locker
+
+### Configuration
+
+Sign-in needs a GitHub OAuth App with Device Flow enabled. Set `KONTEXT_GITHUB_CLIENT_ID` to its client id before starting Kontext (the client id is not a secret). Organisations that restrict OAuth apps must approve the app before their repositories and issues become available.
 
 ### Build and run
 
