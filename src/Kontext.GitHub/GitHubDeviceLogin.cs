@@ -8,7 +8,7 @@ internal sealed class GitHubDeviceLogin(GitHubOptions options, GitHubFormPoster 
     private const string DeviceCodeUrl = "https://github.com/login/device/code";
     private const string AccessTokenUrl = "https://github.com/login/oauth/access_token";
     private const string DeviceGrantType = "urn:ietf:params:oauth:grant-type:device_code";
-    private const string NotConfigured = "GitHub sign-in is not configured. Set the KONTEXT_GITHUB_CLIENT_ID environment variable to the client id of a GitHub OAuth App with device flow enabled, then restart Kontext.";
+    private const string NotConfigured = "GitHub sign-in is not configured. Set GitHub:ClientId to the client id of a GitHub OAuth App with device flow enabled, in appsettings.local.json next to Kontext.exe, then restart Kontext.";
 
     private static readonly TimeSpan SlowDownStep = TimeSpan.FromSeconds(5);
 

@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="Kontext.ExternalTools.Tests" />
+    <InternalsVisibleTo Include="Kontext.ExternalTools.UnitTests" />
   </ItemGroup>
 
 </Project>

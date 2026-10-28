@@ -54,7 +54,7 @@ Kontext lets you work on all your repositories' issues at once and leave Claude 
 * **One worktree per issue.** Selecting an issue clones the repository when needed, creates a `features/{number}-{title}` branch in its own worktree, and opens an empty Claude Code session there. Nothing is asked of you, and nothing is shared between issues.
 * **Know when Claude needs you.** Claude Code hooks report whether a session is working or waiting for input; the circle in the sidebar changes accordingly.
 * **Resume where you left off.** Sessions are remembered per issue and continued with `claude --resume` after a restart.
-* **Open it anywhere.** Open a worktree in File Explorer, Windows Terminal or Visual Studio from the issue's header.
+* **Open it anywhere.** Open a worktree in File Explorer, Windows Terminal or its solution file (`.slnx` or `.sln`, in whatever app is registered for it) from the issue's header.
 * **Clean up when done.** For a closed issue, Clear session removes the worktree and its branch.
 * **Modern Architecture:** Built with SOLID principles and design patterns for maximum maintainability: a modular monolith with compiler-enforced module boundaries.
 * **Native Windows look.** WinUI 3 with Mica, light and dark themes, and a terminal with zoom and mouse support.
@@ -85,7 +85,7 @@ Before beginning, ensure that your development environment is properly configure
 
 ### Configuration
 
-Sign-in needs a GitHub OAuth App with Device Flow enabled. Set `KONTEXT_GITHUB_CLIENT_ID` to its client id before starting Kontext (the client id is not a secret). Organisations that restrict OAuth apps must approve the app before their repositories and issues become available.
+Sign-in needs a GitHub OAuth App with Device Flow enabled. For local development, copy `src/Kontext/appsettings.local.example.json` to `src/Kontext/appsettings.local.json` (git-ignored) and set `GitHub:ClientId` to the app's client id (the client id is not a secret). CI writes the repository variable `KONTEXT_GITHUB_CLIENT_ID` into `appsettings.json` before building. Organisations that restrict OAuth apps must approve the app before their repositories and issues become available.
 
 ### Build and run
 
@@ -102,7 +102,17 @@ Stop a running instance before building again, because it locks the build output
 dotnet test Kontext.slnx -c Release
 ```
 
-Warnings are treated as errors. The tests include integration tests that run real `git` against a temporary repository.
+Warnings are treated as errors. Tests are split by kind, one project per kind and module:
+
+* `Kontext.*.UnitTests` are fast and in-memory: no filesystem, processes or network.
+* `Kontext.*.IntegrationTests` touch the real world: the filesystem, a loopback HTTP server, or real `git` against a temporary repository.
+* `Kontext.ArchitectureTests` and `Kontext.CompositionTests` check the module boundaries and the dependency injection wiring.
+
+To run only the unit tests:
+
+```powershell
+Get-ChildItem tests -Recurse -Filter *.UnitTests.csproj | ForEach-Object { dotnet test $_.FullName -c Release }
+```
 
 <!-- CONTRIBUTING -->
 ## Contributing

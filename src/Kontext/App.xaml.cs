@@ -1,5 +1,6 @@
 using Kontext.Claude;
 using Kontext.Tray;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Xaml;
@@ -15,7 +16,9 @@ public partial class App : Application
         InitializeComponent();
 
         _host = Host.CreateDefaultBuilder()
-            .ConfigureServices(services => services.AddKontext())
+            .UseContentRoot(AppContext.BaseDirectory)
+            .ConfigureAppConfiguration(configuration => configuration.AddJsonFile("appsettings.local.json", optional: true))
+            .ConfigureServices((context, services) => services.AddKontext(context.Configuration))
             .Build();
     }
 

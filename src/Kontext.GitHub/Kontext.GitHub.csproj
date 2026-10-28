@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="Kontext.GitHub.Tests" />
+    <InternalsVisibleTo Include="Kontext.GitHub.UnitTests" />
   </ItemGroup>
 
 </Project>

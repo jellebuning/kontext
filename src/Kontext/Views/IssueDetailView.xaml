@@ -114,7 +114,7 @@
                                         <FontIcon Glyph="&#xE756;" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
-                                <MenuFlyoutItem Click="OpenInVisualStudio_Click" Text="Visual Studio">
+                                <MenuFlyoutItem Click="OpenSolution_Click" Text="Solution">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xE943;" />
                                     </MenuFlyoutItem.Icon>

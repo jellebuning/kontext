@@ -14,14 +14,17 @@
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/Kontext.ArchitectureTests/Kontext.ArchitectureTests.csproj" />
-    <Project Path="tests/Kontext.Claude.Tests/Kontext.Claude.Tests.csproj" />
+    <Project Path="tests/Kontext.Claude.UnitTests/Kontext.Claude.UnitTests.csproj" />
+    <Project Path="tests/Kontext.Claude.IntegrationTests/Kontext.Claude.IntegrationTests.csproj" />
     <Project Path="tests/Kontext.CompositionTests/Kontext.CompositionTests.csproj" />
-    <Project Path="tests/Kontext.ExternalTools.Tests/Kontext.ExternalTools.Tests.csproj" />
-    <Project Path="tests/Kontext.GitAutomation.Tests/Kontext.GitAutomation.Tests.csproj" />
-    <Project Path="tests/Kontext.GitHub.Tests/Kontext.GitHub.Tests.csproj" />
-    <Project Path="tests/Kontext.Presentation.Tests/Kontext.Presentation.Tests.csproj" />
-    <Project Path="tests/Kontext.Sessions.Tests/Kontext.Sessions.Tests.csproj" />
-    <Project Path="tests/Kontext.TerminalHost.Tests/Kontext.TerminalHost.Tests.csproj" />
+    <Project Path="tests/Kontext.ExternalTools.UnitTests/Kontext.ExternalTools.UnitTests.csproj" />
+    <Project Path="tests/Kontext.GitAutomation.UnitTests/Kontext.GitAutomation.UnitTests.csproj" />
+    <Project Path="tests/Kontext.GitAutomation.IntegrationTests/Kontext.GitAutomation.IntegrationTests.csproj" />
+    <Project Path="tests/Kontext.GitHub.UnitTests/Kontext.GitHub.UnitTests.csproj" />
+    <Project Path="tests/Kontext.Presentation.UnitTests/Kontext.Presentation.UnitTests.csproj" />
+    <Project Path="tests/Kontext.Sessions.UnitTests/Kontext.Sessions.UnitTests.csproj" />
+    <Project Path="tests/Kontext.Sessions.IntegrationTests/Kontext.Sessions.IntegrationTests.csproj" />
+    <Project Path="tests/Kontext.TerminalHost.UnitTests/Kontext.TerminalHost.UnitTests.csproj" />
     <Project Path="tests/Kontext.TestSupport/Kontext.TestSupport.csproj" />
   </Folder>
 </Solution>
