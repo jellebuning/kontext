@@ -15,7 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="Kontext.GitAutomation.Tests" />
+    <InternalsVisibleTo Include="Kontext.GitAutomation.UnitTests" />
+    <InternalsVisibleTo Include="Kontext.GitAutomation.IntegrationTests" />
   </ItemGroup>
 
 </Project>

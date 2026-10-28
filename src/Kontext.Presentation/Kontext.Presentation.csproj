@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="Kontext.Presentation.Tests" />
+    <InternalsVisibleTo Include="Kontext.Presentation.UnitTests" />
   </ItemGroup>
 
 </Project>

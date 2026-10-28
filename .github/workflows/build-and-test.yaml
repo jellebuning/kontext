@@ -31,6 +31,17 @@ jobs:
       - name: Install dependencies
         run: dotnet restore
 
+      - name: Set GitHub OAuth client id
+        if: ${{ vars.KONTEXT_GITHUB_CLIENT_ID != '' }}
+        shell: pwsh
+        env:
+          CLIENT_ID: ${{ vars.KONTEXT_GITHUB_CLIENT_ID }}
+        run: |
+          $path = 'src/Kontext/appsettings.json'
+          $settings = Get-Content $path -Raw | ConvertFrom-Json
+          $settings.GitHub.ClientId = $env:CLIENT_ID
+          $settings | ConvertTo-Json -Depth 5 | Set-Content $path
+
       - name: Build
         run: dotnet build --no-restore --configuration Release
 

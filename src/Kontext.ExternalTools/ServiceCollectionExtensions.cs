@@ -11,10 +11,9 @@ public static class ServiceCollectionExtensions
 
         services.AddSingleton<IProcessStarter, ProcessStarter>();
         services.AddSingleton<IFolderFiles, FolderFiles>();
-        services.AddSingleton<IVisualStudioLocator, VswhereVisualStudioLocator>();
         services.AddSingleton<IWorkspaceTool, ExplorerTool>();
         services.AddSingleton<IWorkspaceTool, TerminalTool>();
-        services.AddSingleton<IWorkspaceTool, VisualStudioTool>();
+        services.AddSingleton<IWorkspaceTool, SolutionTool>();
         services.AddSingleton<IWorkspaceOpener, WorkspaceOpener>();
         return services;
     }

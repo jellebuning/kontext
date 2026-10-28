@@ -38,7 +38,7 @@ public sealed partial class IssueDetailView : UserControl
 
     private void OpenInTerminal_Click(object sender, RoutedEventArgs e) => OpenIn(WorkspaceTool.Terminal);
 
-    private void OpenInVisualStudio_Click(object sender, RoutedEventArgs e) => OpenIn(WorkspaceTool.VisualStudio);
+    private void OpenSolution_Click(object sender, RoutedEventArgs e) => OpenIn(WorkspaceTool.Solution);
 
     private void OpenIn(WorkspaceTool tool) => ViewModel?.OpenInCommand.Execute(tool);
 

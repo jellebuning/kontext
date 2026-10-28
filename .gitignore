@@ -60,3 +60,5 @@ nunit-*.xml
 
 *.idea
 .vs/
+# Local developer settings (GitHub OAuth client id)
+appsettings.local.json

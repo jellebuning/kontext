@@ -11,6 +11,7 @@ using Kontext.Terminal;
 using Kontext.TerminalHost;
 using Kontext.Tray;
 using Kontext.Views;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Dispatching;
 
@@ -18,7 +19,7 @@ namespace Kontext;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddKontext(this IServiceCollection services)
+    public static IServiceCollection AddKontext(this IServiceCollection services, IConfiguration configuration)
     {
         var overridden = Environment.GetEnvironmentVariable("KONTEXT_DATA_DIR");
         var dataRoot = string.IsNullOrWhiteSpace(overridden)
@@ -26,7 +27,7 @@ public static class ServiceCollectionExtensions
             : overridden;
 
         services
-            .AddKontextGitHub()
+            .AddKontextGitHub(new GitHubOptions(configuration["GitHub:ClientId"]))
             .AddKontextGitAutomation(new GitAutomationOptions(
                 StateDirectory: dataRoot,
                 WorktreesRoot: Path.Combine(dataRoot, "worktrees"),

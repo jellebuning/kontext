@@ -75,16 +75,33 @@
 
         <NavigationView.PaneCustomContent>
             <StackPanel Margin="16,4" Spacing="8">
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <TextBlock
-                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                        Style="{StaticResource CaptionTextBlockStyle}"
-                        Text="{x:Bind ViewModel.Workspace.Sidebar.CountText, Mode=OneWay}" />
-                    <ProgressRing
-                        Width="14"
-                        Height="14"
-                        IsActive="{x:Bind ViewModel.Workspace.Sidebar.IsLoading, Mode=OneWay}" />
-                </StackPanel>
+                <Grid ColumnSpacing="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="8">
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Text="{x:Bind ViewModel.Workspace.Sidebar.CountText, Mode=OneWay}" />
+                        <ProgressRing
+                            Width="14"
+                            Height="14"
+                            IsActive="{x:Bind ViewModel.Workspace.Sidebar.IsLoading, Mode=OneWay}" />
+                    </StackPanel>
+                    <Button
+                        Grid.Column="1"
+                        Padding="8,4"
+                        AutomationProperties.Name="Refresh"
+                        Command="{x:Bind ViewModel.Workspace.Sidebar.RefreshCommand}"
+                        ToolTipService.ToolTip="Refresh">
+                        <FontIcon FontSize="14" Glyph="&#xE72C;" />
+                    </Button>
+                </Grid>
                 <InfoBar
                     IsClosable="False"
                     IsOpen="{x:Bind ViewModel.Workspace.Sidebar.HasError, Mode=OneWay}"
@@ -96,17 +113,6 @@
                     Visibility="{x:Bind ViewModel.Workspace.Sidebar.IsEmpty, Mode=OneWay}" />
             </StackPanel>
         </NavigationView.PaneCustomContent>
-
-        <NavigationView.PaneFooter>
-            <StackPanel Margin="16,8">
-                <Button
-                    AutomationProperties.Name="Refresh"
-                    Command="{x:Bind ViewModel.Workspace.Sidebar.RefreshCommand}"
-                    ToolTipService.ToolTip="Refresh">
-                    <FontIcon FontSize="14" Glyph="&#xE72C;" />
-                </Button>
-            </StackPanel>
-        </NavigationView.PaneFooter>
 
         <Grid>
             <views:IssueDetailView

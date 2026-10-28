@@ -23,7 +23,7 @@ public class CompositionTests
         var root = Path.Combine(Path.GetTempPath(), "kontext-composition");
 
         var services = new ServiceCollection()
-            .AddKontextGitHub()
+            .AddKontextGitHub(new GitHubOptions(null))
             .AddKontextGitAutomation(new GitAutomationOptions(root, Path.Combine(root, "worktrees"), Path.Combine(root, "repos")))
             .AddKontextTerminalHost()
             .AddKontextClaude(new ClaudeOptions(Path.Combine(root, ".claude")))
@@ -46,6 +46,7 @@ public class CompositionTests
     private static readonly Type[] Contracts =
     [
         typeof(IGitHubService),
+        typeof(IGitHubDeviceLogin),
         typeof(IWorkspaceProvisioner),
         typeof(IExistingWorkspaceFinder),
         typeof(IRepositoryCloneStore),

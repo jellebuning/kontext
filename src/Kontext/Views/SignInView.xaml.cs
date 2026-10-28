@@ -1,7 +1,7 @@
+using System.ComponentModel;
 using Kontext.Presentation;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
 using Windows.System;
 
 namespace Kontext.Views;
@@ -12,7 +12,7 @@ public sealed partial class SignInView : UserControl
         nameof(ViewModel),
         typeof(ShellViewModel),
         typeof(SignInView),
-        new PropertyMetadata(null, (view, _) => ((SignInView)view).Bindings?.Update()));
+        new PropertyMetadata(null, OnViewModelChanged));
 
     public SignInView() => InitializeComponent();
 
@@ -22,11 +22,28 @@ public sealed partial class SignInView : UserControl
         set => SetValue(ViewModelProperty, value);
     }
 
-    private void TokenBox_KeyDown(object sender, KeyRoutedEventArgs e)
+    private static void OnViewModelChanged(DependencyObject view, DependencyPropertyChangedEventArgs args)
     {
-        if (e.Key == VirtualKey.Enter && ViewModel?.SignInCommand.CanExecute(null) == true)
+        var signIn = (SignInView)view;
+
+        if (args.OldValue is ShellViewModel previous)
         {
-            ViewModel.SignInCommand.Execute(null);
+            previous.PropertyChanged -= signIn.ViewModel_PropertyChanged;
+        }
+
+        if (args.NewValue is ShellViewModel current)
+        {
+            current.PropertyChanged += signIn.ViewModel_PropertyChanged;
+        }
+
+        signIn.Bindings?.Update();
+    }
+
+    private async void ViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(ShellViewModel.VerificationUrl) && ViewModel?.VerificationUrl is { } url && LinkPolicy.IsSafeToOpen(url))
+        {
+            await Launcher.LaunchUriAsync(url);
         }
     }
 }

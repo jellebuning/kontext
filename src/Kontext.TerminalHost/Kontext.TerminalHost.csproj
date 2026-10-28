@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="Kontext.TerminalHost.Tests" />
+    <InternalsVisibleTo Include="Kontext.TerminalHost.UnitTests" />
   </ItemGroup>
 
 </Project>

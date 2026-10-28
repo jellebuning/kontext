@@ -15,7 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="Kontext.Sessions.Tests" />
+    <InternalsVisibleTo Include="Kontext.Sessions.UnitTests" />
+    <InternalsVisibleTo Include="Kontext.Sessions.IntegrationTests" />
   </ItemGroup>
 
 </Project>

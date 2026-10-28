@@ -18,6 +18,8 @@
   <ItemGroup>
     <Content Include="Assets\Kontext.ico" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="Assets\Kontext.png" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="appsettings.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="appsettings.local.json" Condition="Exists('appsettings.local.json')" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>

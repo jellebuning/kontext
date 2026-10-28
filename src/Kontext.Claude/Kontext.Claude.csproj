@@ -15,7 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="Kontext.Claude.Tests" />
+    <InternalsVisibleTo Include="Kontext.Claude.UnitTests" />
+    <InternalsVisibleTo Include="Kontext.Claude.IntegrationTests" />
   </ItemGroup>
 
 </Project>

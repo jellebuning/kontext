@@ -75,9 +75,12 @@ public sealed class FakeGitHubService : IGitHubService
 
     public int SignOuts { get; private set; }
 
+    public Action<string>? OnAuthenticate { get; set; }
+
     public Task<GitHubUser> AuthenticateAsync(string accessToken, CancellationToken cancellationToken = default)
     {
         TokensTried.Add(accessToken);
+        OnAuthenticate?.Invoke(accessToken);
         return AuthenticationFailsWith is null ? Task.FromResult(SignedInAs) : Task.FromException<GitHubUser>(AuthenticationFailsWith);
     }
 

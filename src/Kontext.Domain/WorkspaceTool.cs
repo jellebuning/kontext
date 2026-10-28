@@ -6,5 +6,5 @@ public enum WorkspaceTool
 
     Terminal,
 
-    VisualStudio,
+    Solution,
 }
